@@ -7,41 +7,86 @@ Github Repo: https://github.com/ryanwarrick/VehicleSimulator
 '''
 __author__ = 'Ryan'
 
+iterations = 100
+row_length = 40
+template_string = ''
 
-# def replace_specific_section_of_string(original_string, inject_string, position):
-# head_section = original_string[:position]
-#     tail_section = original_string[position + len(inject_string):]
-#     output_string = head_section + inject_string + tail_section
-#     return output_string
 
-def replace_specific_section_of_string(original_string, *args):
+def inject_string(original_string, args):
+    count = 0
     output_string = original_string
-    for a in args:
-        inject_string = a[0]
-        position = a[1]
+    for list in args:
+        # for sublist in list:
+        inject_string = list[0]
+        position = list[1]
         head_section = output_string[:position]
         tail_section = output_string[position + len(inject_string):]
         output_string = head_section + inject_string + tail_section
         output_string = output_string[:len(original_string)]
     return output_string
 
+
+def add_blank_lines(length):
+    for x in range(iterations):
+        row_string_list.append(template_string)
+
+
+def line_index_column():
+    output_list = []
+    count = 1
+    for x in row_string_list:
+        output_list.append([str(count), 0])
+        count += 1
+    return output_list
+
+
+def add_key_row():
+    index = ['Index', 0]
+    time = ['Time', 6]
+    velocity = ['Velocity', 18]
+    key_row_string = inject_string(template_string, [index, time, velocity])
+    row_string_list.insert(0, key_row_string)
+
+
+def time_column():
+    output_list = []
+    time = 0  # minutes
+    for x in row_string_list:
+        output_list.append([str(time), 6])
+        time += 5
+    return output_list
+
+
+def end_line_column():
+    output_list = []
+    for x in row_string_list:
+        output_list.append(['!', row_length - 1])
+    return output_list
+
+
 # Power = Force * Velocity
 # 4kWH battery in car
 
-template_string = ''
+print("OSUSVT Vehicle Simulator")
 
-for x in range(30):
+for x in range(row_length):
     template_string += ' '
 
-print(template_string, '!')
+row_string_list = []
 
-test = ['pewpew', 3]
-test2 = ['scrub a dub', 11]
-test3 = ['2strong', 28]
+add_blank_lines(row_length)  #special method that populates row_string_list
 
-header_string = replace_specific_section_of_string(template_string, test, test2)
-print(header_string, '!')
-second_string = replace_specific_section_of_string(template_string, test3)
-print(second_string, '!')
+index_list = line_index_column()
+time_column_list = time_column()
+end_line_column_list = end_line_column()
 
-# print("OSUSVT Vehicle Simulator")
+for r in range(len(row_string_list)):
+    row_string_list[r] = inject_string(row_string_list[r],
+                                       [index_list[r], time_column_list[r], end_line_column_list[r]])
+
+add_key_row()
+
+
+# output final product
+for r in row_string_list:
+    print(r)
