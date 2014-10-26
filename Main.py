@@ -10,14 +10,13 @@ __author__ = 'Ryan'
 
 import math
 
-import aerodynamics
-import rolling_resistance
-import grading
+import formulas
+
 
 
 # Basic settings/configs for the chart.
-data_point_amount = 64
-row_length = 70
+data_point_amount = 50
+row_length = 63
 time_interval = 5  # In minutes
 
 # Constant values of car
@@ -64,9 +63,9 @@ class DataPoint:
 
         self.theta = 0  # TODO change this so it finds difference from last point to current point in list
 
-        self.power_loss = round((aerodynamics.aero_drag_power_loss(self.velocity) +
-                                 grading.grading_power_loss(self.velocity, self.theta) +
-                                 rolling_resistance.rolling_resistance_power_loss(self.velocity, self.theta)), 1)
+        self.power_loss = round((formulas.aero_drag_power_loss(self.velocity) +
+                                 formulas.grading_power_loss(self.velocity, self.theta) +
+                                 formulas.rolling_resistance_power_loss(self.velocity, self.theta)), 1)
 
         self.energy_loss = self.power_loss * (time_interval / 60)
 
@@ -179,5 +178,6 @@ print(cap_row())
 '''
 Notes to self
 Power = Force * Velocity
+Energy = Power * Time
 4kWH battery in car
 '''
