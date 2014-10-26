@@ -23,5 +23,7 @@ def aero_drag_power_loss(velocity):
     drag_coeff = 0.22
 
     # calculate
+    power_loss = (1 / 2) * air_density * cross_sectional_area * drag_coeff * (velocity ** 3)
 
     # return power loss
+    return power_loss

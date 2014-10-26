@@ -1,5 +1,7 @@
 __author__ = 'Ryan'
 
+import math
+
 '''
 Power Drain: Grading
 Pgrading=m*g*sin(theta)*v
@@ -16,5 +18,7 @@ def grading_power_loss(velocity, theta):
     mass = 300  # kg
 
     # calculate
+    power_loss = mass * gravity * math.sin(math.radians(theta)) * velocity
 
     # return power_loss
+    return power_loss
